@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  healthcheck-api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=development
+    networks:
+      - healthcheck-network
+
+networks:
+  healthcheck-network:
+    driver: bridge
