@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcheck-api
+  labels:
+    app: healthcheck-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: healthcheck-api
+  template:
+    metadata:
+      labels:
+        app: healthcheck-api
+    spec:
+      containers:
+      - name: healthcheck-api
+        image: your-docker-image:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: database-url
+      imagePullSecrets:
+      - name: regcred
